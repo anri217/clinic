@@ -58,10 +58,10 @@ public class DaoManagerImpl implements DaoManager{
                 query.append(line);
             }
             line = query.toString();
-            String[] line_new = line.split(";");
+            String[] newLine = line.split(";");
             Session session = HibernateSessionFactory.getInstance().getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
-            for (String s : line_new) {
+            for (String s : newLine) {
                 SQLQuery sqlQuery = session.createSQLQuery(s);
                 sqlQuery.executeUpdate();
             }
