@@ -14,12 +14,12 @@ public class DoctorsServiceImpl implements DoctorsService {
     private static DoctorsServiceImpl instance;
     private DaoDoctors daoDoctors;
 
-    private DoctorsServiceImpl() throws ExecuteSqlStartScriptException {
+    private DoctorsServiceImpl() {
         DaoManager daoManager = DaoManagerImpl.getInstance();
         daoDoctors = daoManager.getDaoDoctors();
     }
 
-    public static DoctorsServiceImpl getInstance() throws ExecuteSqlStartScriptException {
+    public static DoctorsServiceImpl getInstance() {
         if (instance == null){
             return new DoctorsServiceImpl();
         }

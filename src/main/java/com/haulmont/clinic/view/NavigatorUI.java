@@ -1,8 +1,8 @@
 package com.haulmont.clinic.view;
 
+import com.haulmont.clinic.dao.DaoConstants;
 import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
 import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
-import com.haulmont.clinic.dao.hibernate.DaoManager;
 import com.haulmont.clinic.dao.hibernate.implementation.DaoManagerImpl;
 import com.haulmont.clinic.factories.DoctorFactory;
 import com.haulmont.clinic.service.DoctorsService;
@@ -21,20 +21,14 @@ public class NavigatorUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         getPage().setTitle("CLINIC");
 
-        // Create a navigator to control the views
-        navigator = new Navigator(this, this);
-
-        // Create and register the views
-        navigator.addView(UIConstants.DOCTORS_VIEW, new DoctorsUI());
-        navigator.addView(UIConstants.PATIENTS_VIEW, new PatientsUI());
-        navigator.addView(UIConstants.RECIPES_VIEW, new RecipesUI());
-
-        DoctorsService doctorsService = null;
         try {
-            doctorsService = DoctorsServiceImpl.getInstance();
+            DaoManagerImpl.getInstance(DaoConstants.PATH_TO_START_SCRIPT);
         } catch (ExecuteSqlStartScriptException e) {
             e.printStackTrace();
         }
+
+        DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
+
         for (int i = 0; i < 5; ++i){
             try {
                 doctorsService.create(DoctorFactory.createDoctor("" + i,
@@ -44,8 +38,12 @@ public class NavigatorUI extends UI {
             }
         }
 
+        // Create a navigator to control the views
+        navigator = new Navigator(this, this);
 
-
-
+        // Create and register the views
+        navigator.addView(UIConstants.DOCTORS_VIEW, new DoctorsUI());
+        navigator.addView(UIConstants.PATIENTS_VIEW, new PatientsUI());
+        navigator.addView(UIConstants.RECIPES_VIEW, new RecipesUI());
     }
 }

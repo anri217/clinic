@@ -19,14 +19,24 @@ public class DaoManagerImpl implements DaoManager{
     private static DaoManagerImpl instance;
     private SessionFactory sessionFactory;
 
-    private DaoManagerImpl() throws ExecuteSqlStartScriptException {
-        executeSqlStartScript();
+    private DaoManagerImpl() {
         sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
     }
 
-    public static DaoManagerImpl getInstance() throws ExecuteSqlStartScriptException {
+    private DaoManagerImpl(String path) throws ExecuteSqlStartScriptException {
+        executeSqlStartScript(path);
+        sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
+    }
+
+    public static DaoManagerImpl getInstance() {
         if (instance == null)
             instance = new DaoManagerImpl();
+        return instance;
+    }
+
+    public static DaoManagerImpl getInstance(String path) throws ExecuteSqlStartScriptException {
+        if (instance == null)
+            instance = new DaoManagerImpl(path);
         return instance;
     }
 
@@ -49,9 +59,9 @@ public class DaoManagerImpl implements DaoManager{
         return new DaoRecipesImpl(getSessionFactory());
     }
 
-    private void executeSqlStartScript() throws ExecuteSqlStartScriptException {
+    private void executeSqlStartScript(String path) throws ExecuteSqlStartScriptException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(DaoConstants.PATH_TO_START_SCRIPT));
+            BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
             StringBuilder query = new StringBuilder();
             while ((line = br.readLine()) != null) {
