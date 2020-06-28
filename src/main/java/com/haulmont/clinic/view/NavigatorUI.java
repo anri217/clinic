@@ -44,11 +44,7 @@ public class NavigatorUI extends UI {
             }
         }
 
-        try {
-            DaoManager daoManager = DaoManagerImpl.getInstance();
-        } catch (ExecuteSqlStartScriptException e) {
-            e.printStackTrace();
-        }
+
 
 
     }

@@ -38,6 +38,8 @@ public class Doctor {
         this.specialization = specialization;
     }
 
+    public Doctor() {}
+
     public Long getId() {
         return id;
     }
