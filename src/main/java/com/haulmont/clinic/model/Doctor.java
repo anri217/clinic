@@ -23,6 +23,21 @@ public class Doctor {
     @Column(name = "specialization")
     private String specialization;
 
+    public Doctor(String firstName, String lastName, String patronymic, String specialization) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.specialization = specialization;
+    }
+
+    public Doctor(Long id, String firstName, String lastName, String patronymic, String specialization) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.specialization = specialization;
+    }
+
     public Long getId() {
         return id;
     }

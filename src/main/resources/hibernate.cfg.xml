@@ -6,10 +6,10 @@
 
     <session-factory>
         <!-- Database Connection settings -->
-        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:file:clinic_db</property>
-        <property name="connection.username">SA</property>
-        <property name="connection.password"></property>
+        <property name="connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
+        <property name="connection.url">jdbc:hsqldb:file:clinic_db/clinic_data;shutdown=true</property>
+        <property name="connection.username">admin</property>
+        <property name="connection.password">admin</property>
 
         <!-- Enable the logging of all the generated SQL statements to the console -->
         <property name="show_sql">true</property>

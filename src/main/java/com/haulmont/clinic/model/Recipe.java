@@ -17,12 +17,10 @@ public class Recipe {
 
     @OneToOne
     @JoinColumn(name = "patient_id", nullable = false)
-    @Column(name = "patient_id")
     private Patient patient;
 
     @OneToOne
     @JoinColumn(name = "doctor_id", nullable = false)
-    @Column(name = "doctor_id")
     private Doctor doctor;
 
     @Column(name = "creation_date", columnDefinition = "TIMESTAMP")

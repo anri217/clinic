@@ -1,5 +1,6 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
+import com.haulmont.clinic.dao.DaoConstants;
 import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
 import com.haulmont.clinic.dao.DaoErrorConstants;
 import com.haulmont.clinic.dao.hibernate.utils.HibernateSessionFactory;
@@ -18,24 +19,14 @@ public class DaoManagerImpl implements DaoManager{
     private static DaoManagerImpl instance;
     private SessionFactory sessionFactory;
 
-    private DaoManagerImpl(String path) throws ExecuteSqlStartScriptException {
-        executeSqlStartScript(path);
+    private DaoManagerImpl() throws ExecuteSqlStartScriptException {
+        executeSqlStartScript();
         sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
     }
 
-    private DaoManagerImpl() {
-        sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
-    }
-
-    public static DaoManagerImpl getInstance() {
+    public static DaoManagerImpl getInstance() throws ExecuteSqlStartScriptException {
         if (instance == null)
             instance = new DaoManagerImpl();
-        return instance;
-    }
-
-    public static DaoManagerImpl getInstance(String path) throws ExecuteSqlStartScriptException {
-        if (instance == null)
-            instance = new DaoManagerImpl(path);
         return instance;
     }
 
@@ -58,20 +49,22 @@ public class DaoManagerImpl implements DaoManager{
         return new DaoRecipesImpl(getSessionFactory());
     }
 
-    private void executeSqlStartScript(String path) throws ExecuteSqlStartScriptException {
+    private void executeSqlStartScript() throws ExecuteSqlStartScriptException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+            BufferedReader br = new BufferedReader(new FileReader(DaoConstants.PATH_TO_START_SCRIPT));
             String line;
-            StringBuilder stringBuilder = new StringBuilder();
-            String ls = System.getProperty("line.separator");
+            StringBuilder query = new StringBuilder();
             while ((line = br.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
+                query.append(line);
             }
+            line = query.toString();
+            String[] line_new = line.split(";");
             Session session = HibernateSessionFactory.getInstance().getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery(stringBuilder.toString());
-            query.executeUpdate();
+            for (String s : line_new) {
+                SQLQuery sqlQuery = session.createSQLQuery(s);
+                sqlQuery.executeUpdate();
+            }
             tx.commit();
             session.close();
         } catch (IOException | HibernateException e) {
