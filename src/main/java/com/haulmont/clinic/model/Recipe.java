@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Recipe {
 
     @Id
-    @Column(name = "recipe_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
