@@ -1,7 +1,7 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
 import com.haulmont.clinic.dao.DaoErrorConstants;
-import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
+import com.haulmont.clinic.dao.hibernate.exceptions.ExecuteSqlScriptException;
 import com.haulmont.clinic.dao.hibernate.DaoDoctors;
 import com.haulmont.clinic.dao.hibernate.DaoManager;
 import com.haulmont.clinic.dao.hibernate.DaoPatients;
@@ -21,7 +21,7 @@ public class DaoManagerImpl implements DaoManager{
         sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
     }
 
-    private DaoManagerImpl(String path) throws ExecuteSqlStartScriptException {
+    private DaoManagerImpl(String path) throws ExecuteSqlScriptException {
         executeSqlStartScript(path);
         sessionFactory = HibernateSessionFactory.getInstance().getSessionFactory();
     }
@@ -32,7 +32,7 @@ public class DaoManagerImpl implements DaoManager{
         return instance;
     }
 
-    public static DaoManagerImpl getInstance(String path) throws ExecuteSqlStartScriptException {
+    public static DaoManagerImpl getInstance(String path) throws ExecuteSqlScriptException {
         if (instance == null)
             instance = new DaoManagerImpl(path);
         return instance;
@@ -57,7 +57,7 @@ public class DaoManagerImpl implements DaoManager{
         return new DaoRecipesImpl(getSessionFactory());
     }
 
-    private void executeSqlStartScript(String path) throws ExecuteSqlStartScriptException {
+    private void executeSqlStartScript(String path) throws ExecuteSqlScriptException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
@@ -76,7 +76,7 @@ public class DaoManagerImpl implements DaoManager{
             tx.commit();
             session.close();
         } catch (IOException e) {
-            throw new ExecuteSqlStartScriptException(DaoErrorConstants.EXECUTE_SQL_SCRIPT_EXCEPTION_MESSAGE
+            throw new ExecuteSqlScriptException(DaoErrorConstants.EXECUTE_SQL_SCRIPT_EXCEPTION_MESSAGE
                     + e.getMessage());
         }
     }
