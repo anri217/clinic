@@ -33,7 +33,7 @@ public class PatientsUI extends VerticalLayout implements View {
 
         setMargin(true);
 
-        Label patLabel = new Label(UIConstants.PATIENTS);
+        Label patLabel = new Label(UIConstants.PATIENTS_PAGE_NAME);
 
         addComponent(patLabel);
 
@@ -77,7 +77,7 @@ public class PatientsUI extends VerticalLayout implements View {
                     patientsService.delete(pat);
                 }
                 else{
-                    new Notification(UIConstants.ERROR,
+                    new Notification(UIConstants.NOTIFICATION_TITLE,
                             UIConstants.DELETE_PATIENT_ERROR_WHIT_RECIPES,
                             Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                     isDeleteDisabled = false;

@@ -32,7 +32,7 @@ public class RecipesUI extends VerticalLayout implements View {
 
         setMargin(true);
 
-        Label recLabel = new Label(UIConstants.RECIPES);
+        Label recLabel = new Label(UIConstants.RECIPES_PAGE_NAME);
 
         addComponent(recLabel);
 
@@ -150,7 +150,7 @@ public class RecipesUI extends VerticalLayout implements View {
             }
         });
 
-        Button subFilter = new Button(UIConstants.SUBMIT);
+        Button subFilter = new Button(UIConstants.SUBMIT_BUTTON);
 
         subFilter.addClickListener(clickEvent -> {
            String column = columnComboBox.getValue();
@@ -162,7 +162,7 @@ public class RecipesUI extends VerticalLayout implements View {
                    recipesGrid.setItems(filteredRecipes);
                }
                else{
-                   new Notification(UIConstants.ERROR,
+                   new Notification(UIConstants.NOTIFICATION_TITLE,
                            UIConstants.FILTER_ENTER_PATIENT_ERROR,
                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                }
@@ -177,7 +177,7 @@ public class RecipesUI extends VerticalLayout implements View {
                recipesGrid.setItems(filteredRecipes);
            }
            else{
-               new Notification(UIConstants.ERROR,
+               new Notification(UIConstants.NOTIFICATION_TITLE,
                        UIConstants.FILTER_ENTER_VALUE_ERROR,
                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
            }

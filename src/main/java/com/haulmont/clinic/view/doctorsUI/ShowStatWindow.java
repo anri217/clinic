@@ -35,7 +35,7 @@ public class ShowStatWindow extends Window {
         verticalLayout.addComponent(recipesGrid);
         verticalLayout.addComponent(count);
 
-        Button okButton = new Button(UIConstants.OK);
+        Button okButton = new Button(UIConstants.OK_BUTTON);
         okButton.addClickListener(clickEvent -> {
             this.close();
         });

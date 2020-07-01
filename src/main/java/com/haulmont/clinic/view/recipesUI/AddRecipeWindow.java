@@ -60,7 +60,7 @@ public class AddRecipeWindow extends Window {
         verticalLayout.addComponent(validityTextField);
         verticalLayout.addComponent(priorityComboBox);
 
-        Button okButton = new Button(UIConstants.OK);
+        Button okButton = new Button(UIConstants.OK_BUTTON);
 
         okButton.addClickListener(clickEvent -> {
             boolean isValidity = true;
@@ -81,7 +81,7 @@ public class AddRecipeWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else{
-                new Notification(UIConstants.ERROR,
+                new Notification(UIConstants.NOTIFICATION_TITLE,
                         UIConstants.ADD_OR_EDIT_RECIPE_ERROR,
                         Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
             }
@@ -90,7 +90,7 @@ public class AddRecipeWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button(UIConstants.CANCEL);
+        Button cancelButton = new Button(UIConstants.CANCEL_BUTTON);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();

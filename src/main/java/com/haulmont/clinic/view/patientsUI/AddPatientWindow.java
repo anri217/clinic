@@ -31,7 +31,7 @@ public class AddPatientWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(phoneTextField);
 
-        Button okButton = new Button(UIConstants.OK);
+        Button okButton = new Button(UIConstants.OK_BUTTON);
 
         okButton.addClickListener(clickEvent -> {
             boolean validPhoneNum;
@@ -55,7 +55,7 @@ public class AddPatientWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else{
-                new Notification(UIConstants.ERROR,
+                new Notification(UIConstants.NOTIFICATION_TITLE,
                         UIConstants.ADD_OR_EDIT_PATIENT_ERROR,
                         Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
             }
@@ -64,7 +64,7 @@ public class AddPatientWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button(UIConstants.CANCEL);
+        Button cancelButton = new Button(UIConstants.CANCEL_BUTTON);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();

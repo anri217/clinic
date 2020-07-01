@@ -31,7 +31,7 @@ public class AddDoctorWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(specTextField);
 
-        Button okButton = new Button(UIConstants.OK);
+        Button okButton = new Button(UIConstants.OK_BUTTON);
 
         okButton.addClickListener(clickEvent -> {
             if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("")) {
@@ -43,7 +43,7 @@ public class AddDoctorWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else {
-                new Notification(UIConstants.ERROR, UIConstants.ADD_OR_EDIT_DOCTOR_ERROR, Notification.Type.WARNING_MESSAGE,
+                new Notification(UIConstants.NOTIFICATION_TITLE, UIConstants.ADD_OR_EDIT_DOCTOR_ERROR, Notification.Type.WARNING_MESSAGE,
                         true).show(UI.getCurrent().getPage());
             }
         });
@@ -51,7 +51,7 @@ public class AddDoctorWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button(UIConstants.CANCEL);
+        Button cancelButton = new Button(UIConstants.CANCEL_BUTTON);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();
