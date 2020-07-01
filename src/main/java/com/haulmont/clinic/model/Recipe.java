@@ -27,10 +27,32 @@ public class Recipe {
     private LocalDateTime creationDate;
 
     @Column(name = "validity")
-    private Long validity;
+    private Integer validity;
 
     @Column(name = "priority")
     private String priority;
+
+    public Recipe() {
+    }
+
+    public Recipe(Long id, String description, Patient patient, Doctor doctor, LocalDateTime creationDate, Integer validity, String priority) {
+        this.id = id;
+        this.description = description;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.creationDate = creationDate;
+        this.validity = validity;
+        this.priority = priority;
+    }
+
+    public Recipe(String description, Patient patient, Doctor doctor, LocalDateTime creationDate, Integer validity, String priority) {
+        this.description = description;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.creationDate = creationDate;
+        this.validity = validity;
+        this.priority = priority;
+    }
 
     public Long getId() {
         return id;
@@ -72,11 +94,11 @@ public class Recipe {
         this.creationDate = creationDate;
     }
 
-    public Long getValidity() {
+    public Integer getValidity() {
         return validity;
     }
 
-    public void setValidity(Long validity) {
+    public void setValidity(Integer validity) {
         this.validity = validity;
     }
 
@@ -86,5 +108,19 @@ public class Recipe {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public String getDoctorFullName(){
+        return doctor.getFullName();
+    }
+
+    public String getPatientFullName(){
+        return patient.getFullName();
+    }
+
+    public String getCreationDateString(){
+        LocalDateTime date = creationDate;
+        return date.getHour() + ":" + date.getMinute() + "  " + date.getDayOfMonth()
+                + "." + date.getMonthValue() + "." + date.getYear();
     }
 }

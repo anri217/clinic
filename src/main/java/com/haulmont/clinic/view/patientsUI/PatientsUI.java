@@ -1,9 +1,12 @@
-package com.haulmont.clinic.view;
+package com.haulmont.clinic.view.patientsUI;
 
 import com.haulmont.clinic.dao.exceptions.daoPatients.DeletePatientException;
 import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.service.PatientsService;
 import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
+import com.haulmont.clinic.view.UIConstants;
+import com.haulmont.clinic.view.patientsUI.AddPatientWindow;
+import com.haulmont.clinic.view.patientsUI.EditPatientWindow;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

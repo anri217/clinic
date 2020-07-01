@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS recipes
     patient_id          BIGINT NOT NULL,
     doctor_id           BIGINT NOT NULL,
     creation_date       TIMESTAMP,
-    validity            BIGINT,
+    validity            SMALLINT,
     priority            VARCHAR(6),
 
     FOREIGN KEY (patient_id) REFERENCES patients(id),

@@ -1,12 +1,9 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
 import com.haulmont.clinic.dao.DaoErrorConstants;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.DeleteDoctorException;
 import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
 import com.haulmont.clinic.dao.exceptions.daoPatients.DeletePatientException;
 import com.haulmont.clinic.dao.hibernate.DaoPatients;
-import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Patient;
 import org.hibernate.*;
 

@@ -1,14 +1,21 @@
-package com.haulmont.clinic.view;
+package com.haulmont.clinic.view.patientsUI;
 
+import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
+import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
 import com.haulmont.clinic.factories.DoctorFactory;
+import com.haulmont.clinic.factories.PatientFactory;
 import com.haulmont.clinic.model.Doctor;
+import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.service.DoctorsService;
+import com.haulmont.clinic.service.PatientsService;
 import com.haulmont.clinic.service.implementation.DoctorsServiceImpl;
+import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
+import com.haulmont.clinic.view.UIConstants;
 import com.vaadin.ui.*;
 
-public class EditDoctorWindow extends Window {
-    public EditDoctorWindow(Doctor doctor){
-        super("EDIT");
+public class AddPatientWindow extends Window {
+    public AddPatientWindow(){
+        super(UIConstants.ADD_WINDOW);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
@@ -16,33 +23,32 @@ public class EditDoctorWindow extends Window {
         // Put some components in it
         TextField fNameTextField = new TextField(UIConstants.FIRST_NAME);
         fNameTextField.setMaxLength(20);
-        fNameTextField.setValue(doctor.getFirstName());
 
         TextField lNameTextField = new TextField(UIConstants.LAST_NAME);
         lNameTextField.setMaxLength(40);
-        lNameTextField.setValue(doctor.getLastName());
 
         TextField patTextField = new TextField(UIConstants.PATRONYMIC);
         patTextField.setMaxLength(40);
-        patTextField.setValue(doctor.getPatronymic());
 
-        TextField specialization = new TextField(UIConstants.SPECIALIZATION);
-        specialization.setMaxLength(20);
-        specialization.setValue(doctor.getSpecialization());
-
+        TextField phoneTextField = new TextField(UIConstants.PHONE_NUMBER);
+        phoneTextField.setMaxLength(15);
 
         verticalLayout.addComponent(fNameTextField);
         verticalLayout.addComponent(lNameTextField);
         verticalLayout.addComponent(patTextField);
-        verticalLayout.addComponent(specialization);
+        verticalLayout.addComponent(phoneTextField);
 
         Button subButton = new Button(UIConstants.SUBMIT);
 
         subButton.addClickListener(clickEvent -> {
-            DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
-            Doctor newDoctor = DoctorFactory.createDoctor(doctor.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
-                    patTextField.getValue(), specialization.getValue());
-            doctorsService.update(newDoctor);
+            PatientsService patientsService = PatientsServiceImpl.getInstance();
+            Patient patient = PatientFactory.createPatient(fNameTextField.getValue(), lNameTextField.getValue(),
+                    patTextField.getValue(), phoneTextField.getValue());
+            try {
+                patientsService.create(patient);
+            } catch (CreatePatientException e) {
+                e.printStackTrace();
+            }
             this.close();
             UI.getCurrent().getPage().reload();
         });

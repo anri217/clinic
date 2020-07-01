@@ -1,20 +1,16 @@
-package com.haulmont.clinic.view;
+package com.haulmont.clinic.view.patientsUI;
 
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
 import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
-import com.haulmont.clinic.factories.DoctorFactory;
 import com.haulmont.clinic.factories.PatientFactory;
-import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Patient;
-import com.haulmont.clinic.service.DoctorsService;
 import com.haulmont.clinic.service.PatientsService;
-import com.haulmont.clinic.service.implementation.DoctorsServiceImpl;
 import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
+import com.haulmont.clinic.view.UIConstants;
 import com.vaadin.ui.*;
 
-public class AddPatientWindow extends Window {
-    public AddPatientWindow(){
-        super(UIConstants.ADD_WINDOW);
+public class EditPatientWindow extends Window {
+    public EditPatientWindow(Patient patient){
+        super("EDIT");
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
@@ -22,15 +18,19 @@ public class AddPatientWindow extends Window {
         // Put some components in it
         TextField fNameTextField = new TextField(UIConstants.FIRST_NAME);
         fNameTextField.setMaxLength(20);
+        fNameTextField.setValue(patient.getFirstName());
 
         TextField lNameTextField = new TextField(UIConstants.LAST_NAME);
         lNameTextField.setMaxLength(40);
+        lNameTextField.setValue(patient.getLastName());
 
         TextField patTextField = new TextField(UIConstants.PATRONYMIC);
         patTextField.setMaxLength(40);
+        patTextField.setValue(patient.getPatronymic());
 
         TextField phoneTextField = new TextField(UIConstants.PHONE_NUMBER);
         phoneTextField.setMaxLength(15);
+        phoneTextField.setValue(patient.getPhoneNumber());
 
         verticalLayout.addComponent(fNameTextField);
         verticalLayout.addComponent(lNameTextField);
@@ -41,13 +41,9 @@ public class AddPatientWindow extends Window {
 
         subButton.addClickListener(clickEvent -> {
             PatientsService patientsService = PatientsServiceImpl.getInstance();
-            Patient patient = PatientFactory.createPatient(fNameTextField.getValue(), lNameTextField.getValue(),
+            Patient newPatient = PatientFactory.createPatient(patient.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
                     patTextField.getValue(), phoneTextField.getValue());
-            try {
-                patientsService.create(patient);
-            } catch (CreatePatientException e) {
-                e.printStackTrace();
-            }
+            patientsService.update(newPatient);
             this.close();
             UI.getCurrent().getPage().reload();
         });

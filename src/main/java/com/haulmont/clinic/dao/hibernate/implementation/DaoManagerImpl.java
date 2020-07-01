@@ -1,15 +1,13 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
-import com.haulmont.clinic.dao.DaoConstants;
-import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
 import com.haulmont.clinic.dao.DaoErrorConstants;
-import com.haulmont.clinic.dao.hibernate.utils.HibernateSessionFactory;
+import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
 import com.haulmont.clinic.dao.hibernate.DaoDoctors;
 import com.haulmont.clinic.dao.hibernate.DaoManager;
 import com.haulmont.clinic.dao.hibernate.DaoPatients;
 import com.haulmont.clinic.dao.hibernate.DaoRecipes;
+import com.haulmont.clinic.dao.hibernate.utils.HibernateSessionFactory;
 import org.hibernate.*;
-import org.hibernate.query.Query;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

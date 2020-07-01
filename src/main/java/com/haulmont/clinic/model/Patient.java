@@ -80,4 +80,8 @@ public class Patient {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getFullName(){
+        return new String(getFirstName() + " " + getLastName() + " " + getPatronymic());
+    }
 }

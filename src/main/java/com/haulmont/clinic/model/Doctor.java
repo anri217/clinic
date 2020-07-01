@@ -79,4 +79,8 @@ public class Doctor {
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+
+    public String getFullName(){
+        return new String(getFirstName() + " " + getLastName() + " " + getPatronymic());
+    }
 }

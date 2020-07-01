@@ -1,12 +1,11 @@
 package com.haulmont.clinic.view;
 
 import com.haulmont.clinic.dao.DaoConstants;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
 import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
 import com.haulmont.clinic.dao.hibernate.implementation.DaoManagerImpl;
-import com.haulmont.clinic.factories.DoctorFactory;
-import com.haulmont.clinic.service.DoctorsService;
-import com.haulmont.clinic.service.implementation.DoctorsServiceImpl;
+import com.haulmont.clinic.view.doctorsUI.DoctorsUI;
+import com.haulmont.clinic.view.patientsUI.PatientsUI;
+import com.haulmont.clinic.view.recipesUI.RecipesUI;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
