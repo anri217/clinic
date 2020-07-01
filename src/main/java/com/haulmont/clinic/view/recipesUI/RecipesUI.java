@@ -124,7 +124,8 @@ public class RecipesUI extends VerticalLayout implements View {
         pattern.setVisible(false);
 
         ComboBox<String> priorityComboBox =
-                new ComboBox<>("By: ");
+                new ComboBox<>("By (you can enter only first name or full name " + "\n" +
+                        "separated by ONE space ('FirstName' 'LastName' 'Patronymic')): ");
         List<String> priorityList = new ArrayList<>();
         priorityList.add("Normal");
         priorityList.add("Cito");
