@@ -113,8 +113,12 @@ public class DaoRecipesImpl implements DaoRecipes {
         Session session = sessionFactory.openSession();
         String[] newPattern = pattern.split(" ");
         int size = newPattern.length;
-        String hql =  "FROM Recipe WHERE patient.firstName LIKE :pattern OR patient.lastName LIKE :pattern OR " +
-                "patient.patronymic LIKE :pattern";
+        String hql;
+        if (size == 1) {
+            hql = "FROM Recipe WHERE patient.firstName LIKE :pattern OR patient.lastName LIKE :pattern OR " +
+                    "patient.patronymic LIKE :pattern";
+        }
+        else if (size )
         Transaction tx1 = session.beginTransaction();
         Query query = session.createQuery(hql);
         List<Recipe> recipes = new ArrayList<>();

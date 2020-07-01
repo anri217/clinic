@@ -148,11 +148,11 @@ public class RecipesUI extends VerticalLayout implements View {
         subFilter.addClickListener(clickEvent -> {
            String column = columnComboBox.getValue();
            List<Recipe> filteredRecipes;
-           if (column != null && column.equals("Patient") && pattern.getValue() != null){
+           if (column != null && column.equals("Patient") && pattern.getValue().equals("")){
                filteredRecipes = recipesService.getRecipesByPatient(pattern.getValue());
                recipesGrid.setItems(filteredRecipes);
            }
-           else if(column != null && pattern.getValue() != null){
+           else if(column != null && pattern.getValue().equals("")){
                filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), pattern.getValue());
                recipesGrid.setItems(filteredRecipes);
            }
