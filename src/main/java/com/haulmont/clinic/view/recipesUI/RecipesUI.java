@@ -151,7 +151,7 @@ public class RecipesUI extends VerticalLayout implements View {
            if (column != null && column.equals("Patient") && !pattern.getValue().equals("")){
                String[] patterns = pattern.getValue().split(" ");
                if (patterns.length <= 3) {
-                   filteredRecipes = recipesService.getRecipesByPatient(pattern.getValue());
+                   filteredRecipes = recipesService.getRecipesByPatient(patterns);
                    recipesGrid.setItems(filteredRecipes);
                }
                else{

@@ -62,8 +62,11 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public List<Recipe> getRecipesByPatient(String pattern) {
-        pattern = "%" + pattern + "%";
+    public List<Recipe> getRecipesByPatient(String[] pattern) {
+        int size = pattern.length;
+        for (int i = 0; i < size; i++) {
+            pattern[i] = "%" + pattern[i] + "%";
+        }
         return daoRecipes.getRecipesByPatient(pattern);
     }
 }

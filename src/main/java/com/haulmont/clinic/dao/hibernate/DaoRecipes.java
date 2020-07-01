@@ -12,5 +12,5 @@ public interface DaoRecipes {
     List<Recipe> getAllWhereDoctorId(Long id);
     List<Recipe> getAllWherePatientId(Long id);
     List<Recipe> getRecipesByDescOrPriority(String column, String pattern);
-    List<Recipe> getRecipesByPatient(String pattern);
+    List<Recipe> getRecipesByPatient(String[] pattern);
 }

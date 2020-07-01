@@ -109,10 +109,9 @@ public class DaoRecipesImpl implements DaoRecipes {
     }
 
     @Override
-    public List<Recipe> getRecipesByPatient(String pattern) {
+    public List<Recipe> getRecipesByPatient(String[] pattern) {
         Session session = sessionFactory.openSession();
-        String[] patterns = pattern.split(" ");
-        int size = patterns.length;
+        int size = pattern.length;
         String hql;
         List<Recipe> recipes = new ArrayList<>();
         if (size == 1) {
@@ -120,7 +119,7 @@ public class DaoRecipesImpl implements DaoRecipes {
                     "patient.patronymic LIKE :pattern";
             Transaction tx1 = session.beginTransaction();
             Query query = session.createQuery(hql);
-            query.setParameter(DaoConstants.PATTERN, patterns[0]);
+            query.setParameter(DaoConstants.PATTERN, pattern[0]);
             for (Object o : query.list()) {
                 recipes.add((Recipe) o);
             }
@@ -131,8 +130,8 @@ public class DaoRecipesImpl implements DaoRecipes {
             hql = "FROM Recipe WHERE patient.firstName LIKE :pattern AND patient.lastName LIKE :pattern1";
             Transaction tx1 = session.beginTransaction();
             Query query = session.createQuery(hql);
-            query.setParameter(DaoConstants.PATTERN, patterns[0]);
-            query.setParameter(DaoConstants.PATTERN_1, patterns[1]);
+            query.setParameter(DaoConstants.PATTERN, pattern[0]);
+            query.setParameter(DaoConstants.PATTERN_1, pattern[1]);
             for (Object o : query.list()) {
                 recipes.add((Recipe) o);
             }
@@ -144,9 +143,9 @@ public class DaoRecipesImpl implements DaoRecipes {
                     "patient.patronymic LIKE :pattern2";
             Transaction tx1 = session.beginTransaction();
             Query query = session.createQuery(hql);
-            query.setParameter(DaoConstants.PATTERN, patterns[0]);
-            query.setParameter(DaoConstants.PATTERN_1, patterns[1]);
-            query.setParameter(DaoConstants.PATTERN_2, patterns[2]);
+            query.setParameter(DaoConstants.PATTERN, pattern[0]);
+            query.setParameter(DaoConstants.PATTERN_1, pattern[1]);
+            query.setParameter(DaoConstants.PATTERN_2, pattern[2]);
             for (Object o : query.list()) {
                 recipes.add((Recipe) o);
             }
