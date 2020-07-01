@@ -169,11 +169,11 @@ public class RecipesUI extends VerticalLayout implements View {
                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                }
            }
-           else if(column != null && !patternDesc.getValue().equals("")){
+           else if(column != null && patternDesc.getValue() != null){
                filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), patternDesc.getValue());
                recipesGrid.setItems(filteredRecipes);
            }
-           else if(column != null && !priorityComboBox.getValue().equals("")){
+           else if(column != null && priorityComboBox.getValue() != null){
                filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(),
                        priorityComboBox.getValue());
                recipesGrid.setItems(filteredRecipes);
