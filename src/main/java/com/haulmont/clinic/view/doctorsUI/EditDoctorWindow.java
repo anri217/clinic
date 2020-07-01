@@ -14,7 +14,6 @@ public class EditDoctorWindow extends Window {
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
 
-        // Put some components in it
         TextField fNameTextField = new TextField(UIConstants.FIRST_NAME);
         fNameTextField.setMaxLength(20);
         fNameTextField.setValue(doctor.getFirstName());
@@ -37,20 +36,36 @@ public class EditDoctorWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(specialization);
 
-        Button subButton = new Button(UIConstants.SUBMIT);
+        Button okButton = new Button("OK");
 
-        subButton.addClickListener(clickEvent -> {
-            DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
-            Doctor newDoctor = DoctorFactory.createDoctor(doctor.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
-                    patTextField.getValue(), specialization.getValue());
-            doctorsService.update(newDoctor);
-            this.close();
-            UI.getCurrent().getPage().reload();
+        okButton.addClickListener(clickEvent -> {
+            if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("")) {
+                DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
+                Doctor newDoctor = DoctorFactory.createDoctor(doctor.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
+                        patTextField.getValue(), specialization.getValue());
+                doctorsService.update(newDoctor);
+                this.close();
+                UI.getCurrent().getPage().reload();
+            }
+            else{
+                new Notification("ERROR",
+                        "Please, enter first name and last name",
+                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+            }
         });
 
-        verticalLayout.addComponent(subButton);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(okButton);
 
-        // Center it in the browser window
+        Button cancelButton = new Button("Cancel");
+
+        cancelButton.addClickListener(clickEvent -> {
+            this.close();
+        });
+
+        horizontalLayout.addComponent(cancelButton);
+        verticalLayout.addComponent(horizontalLayout);
+
         center();
         setModal(true);
         setResizable(false);

@@ -1,9 +1,6 @@
 package com.haulmont.clinic.service.implementation;
 
-import com.haulmont.clinic.dao.exceptions.daoRecipes.CreateRecipeException;
-import com.haulmont.clinic.dao.exceptions.daoRecipes.DeleteRecipeException;
 import com.haulmont.clinic.dao.hibernate.DaoManager;
-import com.haulmont.clinic.dao.hibernate.DaoPatients;
 import com.haulmont.clinic.dao.hibernate.DaoRecipes;
 import com.haulmont.clinic.dao.hibernate.implementation.DaoManagerImpl;
 import com.haulmont.clinic.model.Recipe;
@@ -23,7 +20,7 @@ public class RecipesServiceImpl implements RecipesService {
 
     public static RecipesServiceImpl getInstance() {
         if (instance == null){
-            return new RecipesServiceImpl();
+            instance = new RecipesServiceImpl();
         }
         return instance;
     }
@@ -34,17 +31,39 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public void create(Recipe recipe) throws CreateRecipeException {
+    public void create(Recipe recipe) {
         daoRecipes.create(recipe);
     }
 
     @Override
-    public void delete(Recipe recipe) throws DeleteRecipeException {
+    public void delete(Recipe recipe) {
         daoRecipes.delete(recipe);
     }
 
     @Override
     public void update(Recipe recipe) {
         daoRecipes.update(recipe);
+    }
+
+    @Override
+    public List<Recipe> getAllWhereDoctorId(Long id) {
+        return daoRecipes.getAllWhereDoctorId(id);
+    }
+
+    @Override
+    public List<Recipe> getAllWherePatientId(Long id) {
+        return daoRecipes.getAllWherePatientId(id);
+    }
+
+    @Override
+    public List<Recipe> getRecipesByDescOrPriority(String column, String pattern) {
+        pattern = "%" + pattern + "%";
+        return daoRecipes.getRecipesByDescOrPriority(column, pattern);
+    }
+
+    @Override
+    public List<Recipe> getRecipesByPatient(String pattern) {
+        pattern = "%" + pattern + "%";
+        return daoRecipes.getRecipesByPatient(pattern);
     }
 }

@@ -1,14 +1,12 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
-import com.haulmont.clinic.dao.DaoErrorConstants;
-import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
-import com.haulmont.clinic.dao.exceptions.daoPatients.DeletePatientException;
-import com.haulmont.clinic.dao.exceptions.daoRecipes.CreateRecipeException;
-import com.haulmont.clinic.dao.exceptions.daoRecipes.DeleteRecipeException;
+import com.haulmont.clinic.dao.DaoConstants;
 import com.haulmont.clinic.dao.hibernate.DaoRecipes;
-import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.model.Recipe;
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,31 +17,21 @@ public class DaoRecipesImpl implements DaoRecipes {
     public DaoRecipesImpl(SessionFactory sessionFactory){ this.sessionFactory = sessionFactory; }
 
     @Override
-    public void create(Recipe recipe) throws CreateRecipeException {
+    public void create(Recipe recipe) {
         Session session = sessionFactory.openSession();
-        try {
-            Transaction tx = session.beginTransaction();
-            session.save(recipe);
-            tx.commit();
-            session.close();
-        }
-        catch (HibernateException e){
-            throw new CreateRecipeException(DaoErrorConstants.CREATE_RECIPE_EXCEPTION_MESSAGE + e.getMessage());
-        }
+        Transaction tx = session.beginTransaction();
+        session.save(recipe);
+        tx.commit();
+        session.close();
     }
 
     @Override
-    public void delete(Recipe recipe) throws DeleteRecipeException {
+    public void delete(Recipe recipe) {
         Session session = sessionFactory.openSession();
-        try {
-            Transaction tx = session.beginTransaction();
-            session.delete(recipe);
-            tx.commit();
-            session.close();
-        }
-        catch (HibernateException e){
-            throw new DeleteRecipeException(DaoErrorConstants.DELETE_RECIPE_EXCEPTION_MESSAGE + e.getMessage());
-        }
+        Transaction tx = session.beginTransaction();
+        session.delete(recipe);
+        tx.commit();
+        session.close();
     }
 
     @Override
@@ -58,7 +46,6 @@ public class DaoRecipesImpl implements DaoRecipes {
     @Override
     public List<Recipe> getAll() {
         List<Recipe> recipes = new ArrayList<>();
-
         Session session = sessionFactory.openSession();
         String hql = "From Recipe";
         Transaction tx1 = session.beginTransaction();
@@ -68,7 +55,73 @@ public class DaoRecipesImpl implements DaoRecipes {
         }
         tx1.commit();
         session.close();
+        return recipes;
+    }
 
+    @Override
+    public List<Recipe> getAllWhereDoctorId(Long id) {
+        List<Recipe> recipes = new ArrayList<>();
+        Session session = sessionFactory.openSession();
+        String hql = "From Recipe where doctor.id = :id";
+        Transaction tx1 = session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.setParameter(DaoConstants.ID, id);
+        for (Object o : query.list()) {
+            recipes.add((Recipe) o);
+        }
+        tx1.commit();
+        session.close();
+        return recipes;
+    }
+
+    @Override
+    public List<Recipe> getAllWherePatientId(Long id) {
+        List<Recipe> recipes = new ArrayList<>();
+        Session session = sessionFactory.openSession();
+        String hql = "From Recipe where patient.id = :id";
+        Transaction tx1 = session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.setParameter(DaoConstants.ID, id);
+        for (Object o : query.list()) {
+            recipes.add((Recipe) o);
+        }
+        tx1.commit();
+        session.close();
+        return recipes;
+    }
+
+    @Override
+    public List<Recipe> getRecipesByDescOrPriority(String column, String pattern) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM Recipe WHERE %s LIKE :pattern";
+        column = column.toLowerCase();
+        hql = String.format(hql, column);
+        Transaction tx1 = session.beginTransaction();
+        Query query = session.createQuery(hql);
+        List<Recipe> recipes = new ArrayList<>();
+        query.setParameter(DaoConstants.PATTERN, pattern);
+        for (Object o : query.list()) {
+            recipes.add((Recipe) o);
+        }
+        tx1.commit();
+        session.close();
+        return recipes;
+    }
+
+    @Override
+    public List<Recipe> getRecipesByPatient(String pattern) {
+        Session session = sessionFactory.openSession();
+        String hql =  "FROM Recipe WHERE patient.firstName LIKE :pattern OR patient.lastName LIKE :pattern OR " +
+                "patient.patronymic LIKE :pattern";
+        Transaction tx1 = session.beginTransaction();
+        Query query = session.createQuery(hql);
+        List<Recipe> recipes = new ArrayList<>();
+        query.setParameter(DaoConstants.PATTERN, pattern);
+        for (Object o : query.list()) {
+            recipes.add((Recipe) o);
+        }
+        tx1.commit();
+        session.close();
         return recipes;
     }
 }

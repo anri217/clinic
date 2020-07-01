@@ -2,6 +2,7 @@ package com.haulmont.clinic.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "recipes")
@@ -119,8 +120,7 @@ public class Recipe {
     }
 
     public String getCreationDateString(){
-        LocalDateTime date = creationDate;
-        return date.getHour() + ":" + date.getMinute() + "  " + date.getDayOfMonth()
-                + "." + date.getMonthValue() + "." + date.getYear();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM.dd.yyyy");
+        return creationDate.format(formatter);
     }
 }

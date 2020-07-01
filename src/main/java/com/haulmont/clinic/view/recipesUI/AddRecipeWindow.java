@@ -1,6 +1,5 @@
 package com.haulmont.clinic.view.recipesUI;
 
-import com.haulmont.clinic.dao.exceptions.daoRecipes.CreateRecipeException;
 import com.haulmont.clinic.factories.RecipeFactory;
 import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Patient;
@@ -25,7 +24,6 @@ public class AddRecipeWindow extends Window {
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
 
-        // Put some components in it
         TextArea descTextArea = new TextArea("Description: ");
         descTextArea.setWidth("300px");
 
@@ -62,25 +60,45 @@ public class AddRecipeWindow extends Window {
         verticalLayout.addComponent(validityTextField);
         verticalLayout.addComponent(priorityComboBox);
 
-        Button subButton = new Button(UIConstants.SUBMIT);
+        Button okButton = new Button("OK");
 
-        subButton.addClickListener(clickEvent -> {
-            RecipesService recipesService = RecipesServiceImpl.getInstance();
-            Recipe recipe = RecipeFactory.createRecipe(descTextArea.getValue(), patientComboBox.getValue(),
-                    doctorComboBox.getValue(), LocalDateTime.now(), Integer.parseInt(validityTextField.getValue()),
-                    priorityComboBox.getValue());
-            try {
-                recipesService.create(recipe);
-            } catch (CreateRecipeException e) {
-                e.printStackTrace();
+        okButton.addClickListener(clickEvent -> {
+            boolean isValidity = true;
+            String validity = validityTextField.getValue();
+            int size = validity.length();
+            for (int i = 0; i < size && isValidity; i++) {
+                isValidity = Character.isDigit(validity.charAt(i));
             }
-            this.close();
-            UI.getCurrent().getPage().reload();
+            if (!descTextArea.getValue().equals("") && !validityTextField.getValue().equals("") &&
+                    !priorityComboBox.getValue().equals("") && patientComboBox.getValue() != null &&
+                    doctorComboBox.getValue() != null && isValidity) {
+                RecipesService recipesService = RecipesServiceImpl.getInstance();
+                Recipe recipe = RecipeFactory.createRecipe(descTextArea.getValue(), patientComboBox.getValue(),
+                        doctorComboBox.getValue(), LocalDateTime.now(), Integer.parseInt(validity),
+                        priorityComboBox.getValue());
+                recipesService.create(recipe);
+                this.close();
+                UI.getCurrent().getPage().reload();
+            }
+            else{
+                new Notification("ERROR",
+                        "Please, fill out all fields or enter correct validity",
+                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+            }
         });
 
-        verticalLayout.addComponent(subButton);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(okButton);
 
-        // Center it in the browser window
+        Button cancelButton = new Button("Cancel");
+
+        cancelButton.addClickListener(clickEvent -> {
+            this.close();
+        });
+
+        horizontalLayout.addComponent(cancelButton);
+        verticalLayout.addComponent(horizontalLayout);
+
         center();
         setModal(true);
         setResizable(false);

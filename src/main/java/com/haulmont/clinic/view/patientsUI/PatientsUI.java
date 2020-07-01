@@ -1,12 +1,12 @@
 package com.haulmont.clinic.view.patientsUI;
 
-import com.haulmont.clinic.dao.exceptions.daoPatients.DeletePatientException;
+import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.service.PatientsService;
+import com.haulmont.clinic.service.RecipesService;
 import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
+import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
 import com.haulmont.clinic.view.UIConstants;
-import com.haulmont.clinic.view.patientsUI.AddPatientWindow;
-import com.haulmont.clinic.view.patientsUI.EditPatientWindow;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -68,16 +68,25 @@ public class PatientsUI extends VerticalLayout implements View {
         });
 
         delButton.addClickListener(clickEvent -> {
+            RecipesService recipesService = RecipesServiceImpl.getInstance();
             Set<Patient> patientSet = selectionModel.getSelectedItems();
-            try {
-                for (Patient pat : patientSet) {
+            boolean isDeleteDisabled = true;
+            for (Patient pat : patientSet) {
+                if (recipesService.getAllWherePatientId(pat.getId()).size() == 0) {
                     patientsService.delete(pat);
                 }
-            } catch (DeletePatientException e) {
-                e.printStackTrace();
+                else{
+                    new Notification("ERROR",
+                            "You can't delete patient, because he has recipes",
+                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+                    isDeleteDisabled = false;
+                    break;
+                }
             }
-            UI.getCurrent().getPage().reload();
-            delButton.setEnabled(false);
+            if (isDeleteDisabled) {
+                UI.getCurrent().getPage().reload();
+                delButton.setEnabled(false);
+            }
         });
 
         addButton.addClickListener(clickEvent -> {

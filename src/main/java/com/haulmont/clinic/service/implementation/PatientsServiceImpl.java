@@ -1,7 +1,5 @@
 package com.haulmont.clinic.service.implementation;
 
-import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
-import com.haulmont.clinic.dao.exceptions.daoPatients.DeletePatientException;
 import com.haulmont.clinic.dao.hibernate.DaoManager;
 import com.haulmont.clinic.dao.hibernate.DaoPatients;
 import com.haulmont.clinic.dao.hibernate.implementation.DaoManagerImpl;
@@ -22,7 +20,7 @@ public class PatientsServiceImpl implements PatientsService {
 
     public static PatientsServiceImpl getInstance() {
         if (instance == null){
-            return new PatientsServiceImpl();
+            instance = new PatientsServiceImpl();
         }
         return instance;
     }
@@ -33,7 +31,7 @@ public class PatientsServiceImpl implements PatientsService {
     }
 
     @Override
-    public void create(Patient patient) throws CreatePatientException {
+    public void create(Patient patient) {
         daoPatients.create(patient);
     }
 
@@ -43,7 +41,7 @@ public class PatientsServiceImpl implements PatientsService {
     }
 
     @Override
-    public void delete(Patient patient) throws DeletePatientException {
+    public void delete(Patient patient) {
         daoPatients.delete(patient);
     }
 }

@@ -1,8 +1,5 @@
 package com.haulmont.clinic.service.implementation;
 
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.DeleteDoctorException;
-import com.haulmont.clinic.dao.exceptions.daoManager.ExecuteSqlStartScriptException;
 import com.haulmont.clinic.dao.hibernate.DaoDoctors;
 import com.haulmont.clinic.dao.hibernate.DaoManager;
 import com.haulmont.clinic.dao.hibernate.implementation.DaoManagerImpl;
@@ -22,7 +19,7 @@ public class DoctorsServiceImpl implements DoctorsService {
 
     public static DoctorsServiceImpl getInstance() {
         if (instance == null){
-            return new DoctorsServiceImpl();
+            instance = new DoctorsServiceImpl();
         }
         return instance;
     }
@@ -33,12 +30,12 @@ public class DoctorsServiceImpl implements DoctorsService {
     }
 
     @Override
-    public void create(Doctor doctor) throws CreateDoctorException {
+    public void create(Doctor doctor) {
         daoDoctors.create(doctor);
     }
 
     @Override
-    public void delete(Doctor doctor) throws DeleteDoctorException {
+    public void delete(Doctor doctor) {
         daoDoctors.delete(doctor);
     }
 

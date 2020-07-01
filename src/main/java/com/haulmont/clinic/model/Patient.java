@@ -82,6 +82,6 @@ public class Patient {
     }
 
     public String getFullName(){
-        return new String(getFirstName() + " " + getLastName() + " " + getPatronymic());
+        return getFirstName() + " " + getPatronymic() + " " + getLastName();
     }
 }

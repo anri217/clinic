@@ -75,7 +75,7 @@ public class DaoManagerImpl implements DaoManager{
             }
             tx.commit();
             session.close();
-        } catch (IOException | HibernateException e) {
+        } catch (IOException e) {
             throw new ExecuteSqlStartScriptException(DaoErrorConstants.EXECUTE_SQL_SCRIPT_EXCEPTION_MESSAGE
                     + e.getMessage());
         }

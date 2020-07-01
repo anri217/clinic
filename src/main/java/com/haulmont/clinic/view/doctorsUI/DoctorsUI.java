@@ -1,12 +1,11 @@
 package com.haulmont.clinic.view.doctorsUI;
 
-import com.haulmont.clinic.dao.exceptions.daoDoctors.DeleteDoctorException;
 import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.service.DoctorsService;
+import com.haulmont.clinic.service.RecipesService;
 import com.haulmont.clinic.service.implementation.DoctorsServiceImpl;
+import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
 import com.haulmont.clinic.view.UIConstants;
-import com.haulmont.clinic.view.doctorsUI.AddDoctorWindow;
-import com.haulmont.clinic.view.doctorsUI.EditDoctorWindow;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -25,6 +24,7 @@ public class DoctorsUI extends VerticalLayout implements View {
     private Button editButton;
     private Button recNavBut;
     private Button patNavBut;
+    private Button showStatButton;
 
     private DoctorsService doctorsService;
 
@@ -58,26 +58,38 @@ public class DoctorsUI extends VerticalLayout implements View {
         recNavBut = new Button(UIConstants.NAV_TO_RECIPES);
         patNavBut = new Button(UIConstants.NAV_TO_PATIENTS);
         editButton = new Button("Edit");
+        showStatButton = new Button("Show stat");
 
         delButton.setEnabled(false);
         editButton.setEnabled(false);
+        showStatButton.setEnabled(false);
 
         selectionModel.addMultiSelectionListener(event -> {
             delButton.setEnabled(event.getNewSelection().size() > 0);
             editButton.setEnabled(event.getNewSelection().size() == 1);
+            showStatButton.setEnabled(event.getNewSelection().size() == 1);
         });
 
         delButton.addClickListener(clickEvent -> {
+            RecipesService recipesService = RecipesServiceImpl.getInstance();
             Set<Doctor> doctorSet = selectionModel.getSelectedItems();
-            try {
-                for (Doctor doc : doctorSet) {
+            boolean isDeleteDisabled = true;
+            for (Doctor doc : doctorSet) {
+                if (recipesService.getAllWhereDoctorId(doc.getId()).size() == 0) {
                     doctorsService.delete(doc);
                 }
-            } catch (DeleteDoctorException e) {
-                e.printStackTrace();
+                else{
+                    new Notification("ERROR",
+                            "You can't delete doctor, because he has recipes",
+                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+                    isDeleteDisabled = false;
+                    break;
+                }
             }
-            UI.getCurrent().getPage().reload();
-            delButton.setEnabled(false);
+            if (isDeleteDisabled) {
+                UI.getCurrent().getPage().reload();
+                delButton.setEnabled(false);
+            }
         });
 
         addButton.addClickListener(clickEvent -> {
@@ -90,6 +102,13 @@ public class DoctorsUI extends VerticalLayout implements View {
             Iterator<Doctor> iter = doctorSet.iterator();
             EditDoctorWindow editDoctorWindow = new EditDoctorWindow(iter.next());
             UI.getCurrent().addWindow(editDoctorWindow);
+        });
+
+        showStatButton.addClickListener(clickEvent -> {
+            Set<Doctor> doctorSet = selectionModel.getSelectedItems();
+            Iterator<Doctor> iter = doctorSet.iterator();
+            ShowStatWindow showStatWindow = new ShowStatWindow(iter.next());
+            UI.getCurrent().addWindow(showStatWindow);
         });
 
         recNavBut.addClickListener(clickEvent -> {
@@ -107,6 +126,7 @@ public class DoctorsUI extends VerticalLayout implements View {
         horizontalLayout.addComponent(addButton);
         horizontalLayout.addComponent(delButton);
         horizontalLayout.addComponent(editButton);
+        horizontalLayout.addComponent(showStatButton);
         horizontalLayout.addComponent(recNavBut);
         horizontalLayout.addComponent(patNavBut);
 

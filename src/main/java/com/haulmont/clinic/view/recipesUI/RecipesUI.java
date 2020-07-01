@@ -1,12 +1,9 @@
 package com.haulmont.clinic.view.recipesUI;
 
-import com.haulmont.clinic.dao.exceptions.daoRecipes.DeleteRecipeException;
 import com.haulmont.clinic.model.Recipe;
 import com.haulmont.clinic.service.RecipesService;
 import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
 import com.haulmont.clinic.view.UIConstants;
-import com.haulmont.clinic.view.recipesUI.AddRecipeWindow;
-import com.haulmont.clinic.view.recipesUI.EditRecipeWindow;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -14,6 +11,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -72,12 +70,8 @@ public class RecipesUI extends VerticalLayout implements View {
 
         delButton.addClickListener(clickEvent -> {
             Set<Recipe> recipeSet = selectionModel.getSelectedItems();
-            try {
-                for (Recipe recipe : recipeSet) {
-                    recipesService.delete(recipe);
-                }
-            } catch (DeleteRecipeException e) {
-                e.printStackTrace();
+            for (Recipe recipe : recipeSet) {
+                recipesService.delete(recipe);
             }
             UI.getCurrent().getPage().reload();
             delButton.setEnabled(false);
@@ -114,5 +108,64 @@ public class RecipesUI extends VerticalLayout implements View {
         horizontalLayout.addComponent(patNavBut);
 
         addComponent(horizontalLayout);
+
+        HorizontalLayout filterFields = new HorizontalLayout();
+
+        ComboBox<String> columnComboBox = new ComboBox<>("Filter: ");
+        List<String> columns = new ArrayList<>();
+        columns.add("Patient");
+        columns.add("Description");
+        columns.add("Priority");
+        columnComboBox.setItems(columns);
+
+        TextField pattern = new TextField("By: ");
+        pattern.setVisible(false);
+
+        ComboBox<String> priorityComboBox =
+                new ComboBox<>("By: ");
+        List<String> priorityList = new ArrayList<>();
+        priorityList.add("Normal");
+        priorityList.add("Cito");
+        priorityList.add("Statim");
+        priorityComboBox.setItems(priorityList);
+        priorityComboBox.setVisible(false);
+
+        columnComboBox.addSelectionListener(singleSelectionEvent -> {
+            if (columnComboBox.getValue() != null) {
+                priorityComboBox.setVisible(columnComboBox.getValue().equals("Priority"));
+                pattern.setVisible(!columnComboBox.getValue().equals("Priority"));
+            }
+            else{
+                priorityComboBox.setVisible(false);
+                pattern.setVisible(false);
+            }
+        });
+
+        Button subFilter = new Button(UIConstants.SUBMIT);
+
+        subFilter.addClickListener(clickEvent -> {
+           String column = columnComboBox.getValue();
+           List<Recipe> filteredRecipes;
+           if (column != null && column.equals("Patient")){
+               filteredRecipes = recipesService.getRecipesByPatient(pattern.getValue());
+               recipesGrid.setItems(filteredRecipes);
+           }
+           else if(column != null){
+               filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), pattern.getValue());
+               recipesGrid.setItems(filteredRecipes);
+           }
+           else{
+               new Notification("ERROR",
+                       "Please, choose filter",
+                       Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+           }
+        });
+
+        filterFields.addComponent(columnComboBox);
+        filterFields.addComponent(pattern);
+        filterFields.addComponent(priorityComboBox);
+
+        addComponent(filterFields);
+        addComponent(subFilter);
     }
 }

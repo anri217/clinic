@@ -1,11 +1,11 @@
 package com.haulmont.clinic.dao.hibernate.implementation;
 
-import com.haulmont.clinic.dao.DaoErrorConstants;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
-import com.haulmont.clinic.dao.exceptions.daoDoctors.DeleteDoctorException;
 import com.haulmont.clinic.dao.hibernate.DaoDoctors;
 import com.haulmont.clinic.model.Doctor;
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,31 +16,21 @@ public class DaoDoctorsImpl implements DaoDoctors {
     public DaoDoctorsImpl(SessionFactory sessionFactory){ this.sessionFactory = sessionFactory; }
 
     @Override
-    public void create(Doctor doctor) throws CreateDoctorException {
+    public void create(Doctor doctor) {
         Session session = sessionFactory.openSession();
-        try {
-            Transaction tx = session.beginTransaction();
-            session.save(doctor);
-            tx.commit();
-            session.close();
-        }
-        catch (HibernateException e){
-            throw new CreateDoctorException(DaoErrorConstants.CREATE_DOCTOR_EXCEPTION_MESSAGE + e.getMessage());
-        }
+        Transaction tx = session.beginTransaction();
+        session.save(doctor);
+        tx.commit();
+        session.close();
     }
 
     @Override
-    public void delete(Doctor doctor) throws DeleteDoctorException {
+    public void delete(Doctor doctor) {
         Session session = sessionFactory.openSession();
-        try {
-            Transaction tx = session.beginTransaction();
-            session.delete(doctor);
-            tx.commit();
-            session.close();
-        }
-        catch (HibernateException e){
-            throw new DeleteDoctorException(DaoErrorConstants.DELETE_DOCTOR_EXCEPTION_MESSAGE + e.getMessage());
-        }
+        Transaction tx = session.beginTransaction();
+        session.delete(doctor);
+        tx.commit();
+        session.close();
     }
 
     @Override
@@ -55,7 +45,6 @@ public class DaoDoctorsImpl implements DaoDoctors {
     @Override
     public List<Doctor> getAll() {
         List<Doctor> doctors = new ArrayList<>();
-
         Session session = sessionFactory.openSession();
         String hql = "From Doctor";
         Transaction tx1 = session.beginTransaction();
@@ -65,7 +54,6 @@ public class DaoDoctorsImpl implements DaoDoctors {
         }
         tx1.commit();
         session.close();
-
         return doctors;
     }
 }

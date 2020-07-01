@@ -1,6 +1,5 @@
 package com.haulmont.clinic.view.doctorsUI;
 
-import com.haulmont.clinic.dao.exceptions.daoDoctors.CreateDoctorException;
 import com.haulmont.clinic.factories.DoctorFactory;
 import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.service.DoctorsService;
@@ -15,7 +14,6 @@ public class AddDoctorWindow extends Window {
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
 
-        // Put some components in it
         TextField fNameTextField = new TextField(UIConstants.FIRST_NAME);
         fNameTextField.setMaxLength(20);
 
@@ -33,24 +31,36 @@ public class AddDoctorWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(specTextField);
 
-        Button subButton = new Button(UIConstants.SUBMIT);
+        Button okButton = new Button("OK");
 
-        subButton.addClickListener(clickEvent -> {
-            DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
-            Doctor doctor = DoctorFactory.createDoctor(fNameTextField.getValue(), lNameTextField.getValue(),
-                    patTextField.getValue(), specTextField.getValue());
-            try {
+        okButton.addClickListener(clickEvent -> {
+            if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("")) {
+                DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
+                Doctor doctor = DoctorFactory.createDoctor(fNameTextField.getValue(), lNameTextField.getValue(),
+                        patTextField.getValue(), specTextField.getValue());
                 doctorsService.create(doctor);
-            } catch (CreateDoctorException e) {
-                e.printStackTrace();
+                this.close();
+                UI.getCurrent().getPage().reload();
             }
-            this.close();
-            UI.getCurrent().getPage().reload();
+            else{
+                new Notification("ERROR",
+                        "Please, enter first name and last name",
+                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+            }
         });
 
-        verticalLayout.addComponent(subButton);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(okButton);
 
-        // Center it in the browser window
+        Button cancelButton = new Button("Cancel");
+
+        cancelButton.addClickListener(clickEvent -> {
+            this.close();
+        });
+
+        horizontalLayout.addComponent(cancelButton);
+        verticalLayout.addComponent(horizontalLayout);
+
         center();
         setModal(true);
         setResizable(false);

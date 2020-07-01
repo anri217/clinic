@@ -1,6 +1,5 @@
 package com.haulmont.clinic.view.patientsUI;
 
-import com.haulmont.clinic.dao.exceptions.daoPatients.CreatePatientException;
 import com.haulmont.clinic.factories.PatientFactory;
 import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.service.PatientsService;
@@ -15,7 +14,6 @@ public class EditPatientWindow extends Window {
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
 
-        // Put some components in it
         TextField fNameTextField = new TextField(UIConstants.FIRST_NAME);
         fNameTextField.setMaxLength(20);
         fNameTextField.setValue(patient.getFirstName());
@@ -37,20 +35,48 @@ public class EditPatientWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(phoneTextField);
 
-        Button subButton = new Button(UIConstants.SUBMIT);
+        Button okButton = new Button("OK");
 
-        subButton.addClickListener(clickEvent -> {
-            PatientsService patientsService = PatientsServiceImpl.getInstance();
-            Patient newPatient = PatientFactory.createPatient(patient.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
-                    patTextField.getValue(), phoneTextField.getValue());
-            patientsService.update(newPatient);
-            this.close();
-            UI.getCurrent().getPage().reload();
+        okButton.addClickListener(clickEvent -> {
+            boolean validPhoneNum;
+            String phoneNum = phoneTextField.getValue();
+            int size = phoneNum.length();
+            validPhoneNum = size >= 11;
+            for (int i = 0; i < size && validPhoneNum; ++i){
+                if (i != 0){
+                    validPhoneNum = Character.isDigit(phoneNum.charAt(i));
+                }
+                else{
+                    validPhoneNum = Character.isDigit(phoneNum.charAt(i)) || phoneNum.charAt(i) == '+';
+                }
+            }
+            if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("") && validPhoneNum) {
+                PatientsService patientsService = PatientsServiceImpl.getInstance();
+                Patient newPatient = PatientFactory.createPatient(patient.getId(), fNameTextField.getValue(), lNameTextField.getValue(),
+                        patTextField.getValue(), phoneTextField.getValue());
+                patientsService.update(newPatient);
+                this.close();
+                UI.getCurrent().getPage().reload();
+            }
+            else{
+                new Notification("ERROR",
+                        "Please, enter first name and last name or enter your correct phone number",
+                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+            }
         });
 
-        verticalLayout.addComponent(subButton);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(okButton);
 
-        // Center it in the browser window
+        Button cancelButton = new Button("Cancel");
+
+        cancelButton.addClickListener(clickEvent -> {
+            this.close();
+        });
+
+        horizontalLayout.addComponent(cancelButton);
+        verticalLayout.addComponent(horizontalLayout);
+
         center();
         setModal(true);
         setResizable(false);
