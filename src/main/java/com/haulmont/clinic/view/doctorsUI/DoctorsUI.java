@@ -46,7 +46,6 @@ public class DoctorsUI extends VerticalLayout implements View {
 
         doctorGrid.setItems(doctors);
 
-        doctorGrid.removeColumn("id");
         doctorGrid.setColumns("firstName", "lastName", "patronymic", "specialization");
         MultiSelectionModel<Doctor> selectionModel
                 = (MultiSelectionModel<Doctor>) doctorGrid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -81,8 +80,8 @@ public class DoctorsUI extends VerticalLayout implements View {
                     doctorsService.delete(doc);
                 }
                 else{
-                    new Notification("ERROR",
-                            "You can't delete doctor, because he has recipes",
+                    new Notification(UIConstants.ERROR,
+                            UIConstants.DELETE_DOCTOR_ERROR_WITH_RECIPES,
                             Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                     isDeleteDisabled = false;
                     break;

@@ -43,7 +43,7 @@ public class AddDoctorWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else {
-                new Notification(UIConstants.ERROR, UIConstants.ADD_DOCTOR_ERROR, Notification.Type.WARNING_MESSAGE,
+                new Notification(UIConstants.ERROR, UIConstants.ADD_OR_EDIT_DOCTOR_ERROR, Notification.Type.WARNING_MESSAGE,
                         true).show(UI.getCurrent().getPage());
             }
         });

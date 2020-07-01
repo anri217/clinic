@@ -9,7 +9,7 @@ import com.vaadin.ui.*;
 
 public class EditPatientWindow extends Window {
     public EditPatientWindow(Patient patient){
-        super("EDIT");
+        super(UIConstants.EDIT_WINDOW);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
@@ -35,7 +35,7 @@ public class EditPatientWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(phoneTextField);
 
-        Button okButton = new Button("OK");
+        Button okButton = new Button(UIConstants.OK);
 
         okButton.addClickListener(clickEvent -> {
             boolean validPhoneNum;
@@ -59,8 +59,8 @@ public class EditPatientWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else{
-                new Notification("ERROR",
-                        "Please, enter first name and last name or enter your correct phone number",
+                new Notification(UIConstants.ERROR,
+                        UIConstants.ADD_OR_EDIT_PATIENT_ERROR,
                         Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
             }
         });
@@ -68,7 +68,7 @@ public class EditPatientWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button(UIConstants.CANCEL);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();

@@ -32,7 +32,7 @@ public class RecipesUI extends VerticalLayout implements View {
 
         setMargin(true);
 
-        Label recLabel = new Label("Recipes");
+        Label recLabel = new Label(UIConstants.RECIPES);
 
         addComponent(recLabel);
 
@@ -60,7 +60,7 @@ public class RecipesUI extends VerticalLayout implements View {
         delButton = new Button(UIConstants.DELETE_BUTTON);
         docNavBut = new Button(UIConstants.NAV_TO_DOCTORS);
         patNavBut = new Button(UIConstants.NAV_TO_PATIENTS);
-        editButton = new Button("Edit");
+        editButton = new Button(UIConstants.EDIT_BUTTON);
 
         delButton.setEnabled(false);
         editButton.setEnabled(false);
@@ -120,8 +120,7 @@ public class RecipesUI extends VerticalLayout implements View {
         columns.add("Priority");
         columnComboBox.setItems(columns);
 
-        TextField patternPatient = new TextField("By (you can enter only first name or first name and last name separated " +
-                "by ONE space or full name ('First name' 'Last name' 'Patronymic')): ");
+        TextField patternPatient = new TextField(UIConstants.DESC_FOR_TEXT_FIELD_ENTER_PATIENT);
         patternPatient.setVisible(false);
 
         TextField patternDesc = new TextField("By: ");
@@ -163,9 +162,8 @@ public class RecipesUI extends VerticalLayout implements View {
                    recipesGrid.setItems(filteredRecipes);
                }
                else{
-                   new Notification("ERROR",
-                           "Please, enter valid patient name(you can enter only first name or full name " +
-                                   "separated by ONE space ('FirstName' 'LastName' 'Patronymic'))",
+                   new Notification(UIConstants.ERROR,
+                           UIConstants.FILTER_ENTER_PATIENT_ERROR,
                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                }
            }
@@ -179,8 +177,8 @@ public class RecipesUI extends VerticalLayout implements View {
                recipesGrid.setItems(filteredRecipes);
            }
            else{
-               new Notification("ERROR",
-                       "Please, choose filter or enter filtered value",
+               new Notification(UIConstants.ERROR,
+                       UIConstants.FILTER_ENTER_VALUE_ERROR,
                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
            }
         });

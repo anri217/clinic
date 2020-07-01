@@ -18,7 +18,7 @@ public class NavigatorUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        getPage().setTitle("CLINIC");
+        getPage().setTitle(UIConstants.CLINIC);
 
         try {
             DaoManagerImpl.getInstance(DaoConstants.PATH_TO_START_SCRIPT);

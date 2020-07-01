@@ -4,6 +4,7 @@ import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Recipe;
 import com.haulmont.clinic.service.RecipesService;
 import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
+import com.haulmont.clinic.view.UIConstants;
 import com.vaadin.ui.*;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ShowStatWindow extends Window {
         verticalLayout.addComponent(recipesGrid);
         verticalLayout.addComponent(count);
 
-        Button okButton = new Button("OK");
+        Button okButton = new Button(UIConstants.OK);
         okButton.addClickListener(clickEvent -> {
             this.close();
         });

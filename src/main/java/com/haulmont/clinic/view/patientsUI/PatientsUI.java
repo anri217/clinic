@@ -33,7 +33,7 @@ public class PatientsUI extends VerticalLayout implements View {
 
         setMargin(true);
 
-        Label patLabel = new Label("Patients");
+        Label patLabel = new Label(UIConstants.PATIENTS);
 
         addComponent(patLabel);
 
@@ -58,7 +58,7 @@ public class PatientsUI extends VerticalLayout implements View {
         delButton = new Button(UIConstants.DELETE_BUTTON);
         recNavBut = new Button(UIConstants.NAV_TO_RECIPES);
         docNavBut = new Button(UIConstants.NAV_TO_DOCTORS);
-        editButton = new Button("Edit");
+        editButton = new Button(UIConstants.EDIT_BUTTON);
 
         delButton.setEnabled(false);
         editButton.setEnabled(false);
@@ -77,8 +77,8 @@ public class PatientsUI extends VerticalLayout implements View {
                     patientsService.delete(pat);
                 }
                 else{
-                    new Notification("ERROR",
-                            "You can't delete patient, because he has recipes",
+                    new Notification(UIConstants.ERROR,
+                            UIConstants.DELETE_PATIENT_ERROR_WHIT_RECIPES,
                             Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                     isDeleteDisabled = false;
                     break;

@@ -9,7 +9,7 @@ import com.vaadin.ui.*;
 
 public class EditDoctorWindow extends Window {
     public EditDoctorWindow(Doctor doctor){
-        super("EDIT");
+        super(UIConstants.EDIT_WINDOW);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
@@ -36,7 +36,7 @@ public class EditDoctorWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(specialization);
 
-        Button okButton = new Button("OK");
+        Button okButton = new Button(UIConstants.OK);
 
         okButton.addClickListener(clickEvent -> {
             if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("")) {
@@ -48,8 +48,8 @@ public class EditDoctorWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else{
-                new Notification("ERROR",
-                        "Please, enter first name and last name",
+                new Notification(UIConstants.ERROR,
+                        UIConstants.ADD_OR_EDIT_DOCTOR_ERROR,
                         Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
             }
         });
@@ -57,7 +57,7 @@ public class EditDoctorWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button(UIConstants.CANCEL);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();

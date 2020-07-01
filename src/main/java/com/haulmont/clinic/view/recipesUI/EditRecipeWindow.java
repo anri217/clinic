@@ -10,6 +10,7 @@ import com.haulmont.clinic.service.RecipesService;
 import com.haulmont.clinic.service.implementation.DoctorsServiceImpl;
 import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
 import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
+import com.haulmont.clinic.view.UIConstants;
 import com.vaadin.ui.*;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class EditRecipeWindow extends Window {
     public EditRecipeWindow(Recipe recipe){
-        super("EDIT");
+        super(UIConstants.EDIT_WINDOW);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
@@ -63,7 +64,7 @@ public class EditRecipeWindow extends Window {
         verticalLayout.addComponent(validityTextField);
         verticalLayout.addComponent(priorityComboBox);
 
-        Button okButton = new Button("OK");
+        Button okButton = new Button(UIConstants.OK);
 
         okButton.addClickListener(clickEvent -> {
             boolean isValidity = true;
@@ -84,8 +85,7 @@ public class EditRecipeWindow extends Window {
                 UI.getCurrent().getPage().reload();
             }
             else{
-                new Notification("ERROR",
-                        "Please, fill out all fields or enter correct validity",
+                new Notification(UIConstants.ERROR, UIConstants.ADD_OR_EDIT_RECIPE_ERROR,
                         Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
             }
         });
@@ -93,7 +93,7 @@ public class EditRecipeWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button(UIConstants.CANCEL);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();
