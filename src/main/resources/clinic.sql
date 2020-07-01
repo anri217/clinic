@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS doctors
     first_name          VARCHAR(20),
     last_name           VARCHAR(40),
     patronymic          VARCHAR(40),
-    specialization      VARCHAR(50)
+    specialization      VARCHAR(20)
 );
 CREATE TABLE IF NOT EXISTS recipes
 (

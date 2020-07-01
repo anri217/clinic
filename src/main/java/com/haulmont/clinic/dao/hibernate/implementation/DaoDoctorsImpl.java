@@ -7,7 +7,6 @@ import com.haulmont.clinic.dao.hibernate.DaoDoctors;
 import com.haulmont.clinic.model.Doctor;
 import org.hibernate.*;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +41,15 @@ public class DaoDoctorsImpl implements DaoDoctors {
         catch (HibernateException e){
             throw new DeleteDoctorException(DaoErrorConstants.DELETE_DOCTOR_EXCEPTION_MESSAGE + e.getMessage());
         }
+    }
+
+    @Override
+    public void update(Doctor doctor){
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(doctor);
+        tx.commit();
+        session.close();
     }
 
     @Override

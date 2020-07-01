@@ -11,9 +11,8 @@ import com.vaadin.ui.themes.ValoTheme;
 public class RecipesUI extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent request) {
-        setSizeFull();
         setMargin(true);
 
-        addComponent(new Label("Recipes UI"));
+        addComponent(new Label("Recipes"));
     }
 }

@@ -27,17 +27,6 @@ public class NavigatorUI extends UI {
             e.printStackTrace();
         }
 
-        DoctorsService doctorsService = DoctorsServiceImpl.getInstance();
-
-        for (int i = 0; i < 5; ++i){
-            try {
-                doctorsService.create(DoctorFactory.createDoctor("" + i,
-                        "" + i + 1, "" + i + 2, "" + i + 3));
-            } catch (CreateDoctorException e) {
-                e.printStackTrace();
-            }
-        }
-
         // Create a navigator to control the views
         navigator = new Navigator(this, this);
 

@@ -23,6 +23,24 @@ public class Patient {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    public Patient() {
+    }
+
+    public Patient(String firstName, String lastName, String patronymic, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Patient(Long id, String firstName, String lastName, String patronymic, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Long getId() {
         return id;
     }
