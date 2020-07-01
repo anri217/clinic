@@ -148,11 +148,20 @@ public class RecipesUI extends VerticalLayout implements View {
         subFilter.addClickListener(clickEvent -> {
            String column = columnComboBox.getValue();
            List<Recipe> filteredRecipes;
-           if (column != null && column.equals("Patient") && pattern.getValue().equals("")){
-               filteredRecipes = recipesService.getRecipesByPatient(pattern.getValue());
-               recipesGrid.setItems(filteredRecipes);
+           if (column != null && column.equals("Patient") && !pattern.getValue().equals("")){
+               String[] patterns = pattern.getValue().split(" ");
+               if (patterns.length <= 3) {
+                   filteredRecipes = recipesService.getRecipesByPatient(pattern.getValue());
+                   recipesGrid.setItems(filteredRecipes);
+               }
+               else{
+                   new Notification("ERROR",
+                           "Please, enter valid patient name(you can enter only first name or full name " +
+                                   "separated by ONE space ('FirstName' 'LastName' 'Patronymic'))",
+                           Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+               }
            }
-           else if(column != null && pattern.getValue().equals("")){
+           else if(column != null && !(pattern.getValue().equals("") && priorityComboBox.getValue().equals(""))){
                filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), pattern.getValue());
                recipesGrid.setItems(filteredRecipes);
            }
