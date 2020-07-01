@@ -111,6 +111,8 @@ public class DaoRecipesImpl implements DaoRecipes {
     @Override
     public List<Recipe> getRecipesByPatient(String pattern) {
         Session session = sessionFactory.openSession();
+        String[] newPattern = pattern.split(" ");
+        int size = newPattern.length;
         String hql =  "FROM Recipe WHERE patient.firstName LIKE :pattern OR patient.lastName LIKE :pattern OR " +
                 "patient.patronymic LIKE :pattern";
         Transaction tx1 = session.beginTransaction();

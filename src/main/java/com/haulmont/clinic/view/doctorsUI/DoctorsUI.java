@@ -34,7 +34,7 @@ public class DoctorsUI extends VerticalLayout implements View {
 
         setMargin(true);
 
-        Label docLabel = new Label("Doctors");
+        Label docLabel = new Label(UIConstants.DOCTORS);
 
         addComponent(docLabel);
 
@@ -59,8 +59,8 @@ public class DoctorsUI extends VerticalLayout implements View {
         delButton = new Button(UIConstants.DELETE_BUTTON);
         recNavBut = new Button(UIConstants.NAV_TO_RECIPES);
         patNavBut = new Button(UIConstants.NAV_TO_PATIENTS);
-        editButton = new Button("Edit");
-        showStatButton = new Button("Show stat");
+        editButton = new Button(UIConstants.EDIT_BUTTON);
+        showStatButton = new Button(UIConstants.SHOW_STAT);
 
         delButton.setEnabled(false);
         editButton.setEnabled(false);

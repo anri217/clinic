@@ -51,7 +51,7 @@ public class AddDoctorWindow extends Window {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(okButton);
 
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button(UIConstants.CANCEL);
 
         cancelButton.addClickListener(clickEvent -> {
             this.close();

@@ -17,7 +17,11 @@ public class UIConstants {
     public static final String SPECIALIZATION = "Specialization: ";
     public static final String SUBMIT = "Submit";
     public static final String OK = "OK";
-    public static final String EDIT = "EDIT";
+    public static final String EDIT_WINDOW = "EDIT";
+    public static final String EDIT_BUTTON = "Edit";
+    public static final String SHOW_STAT = "Show stat";
     public static final String ERROR = "ERROR";
     public static final String ADD_DOCTOR_ERROR = "Please, enter first name and last name";
+    public static final String CANCEL = "Cancel";
+    public static final String DOCTORS = "Doctors";
 }
