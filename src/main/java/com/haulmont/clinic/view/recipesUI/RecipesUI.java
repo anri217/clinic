@@ -120,13 +120,15 @@ public class RecipesUI extends VerticalLayout implements View {
         columns.add("Priority");
         columnComboBox.setItems(columns);
 
-        TextField pattern = new TextField("By (you can enter only first name or full name " + "\n" +
-                "separated by ONE space ('FirstName' 'LastName' 'Patronymic')): ");
-        pattern.setVisible(false);
+        TextField patternPatient = new TextField("By (you can enter only first name or first name and last name separated " +
+                "by ONE space or full name ('First name' 'Last name' 'Patronymic')): ");
+        patternPatient.setVisible(false);
+
+        TextField patternDesc = new TextField("By: ");
+        patternDesc.setVisible(false);
 
         ComboBox<String> priorityComboBox =
-                new ComboBox<>("By (you can enter only first name or first name and last name separated " +
-                        "by ONE space or full name ('First name' 'Last name' 'Patronymic')): ");
+                new ComboBox<>("By: ");
         List<String> priorityList = new ArrayList<>();
         priorityList.add("Normal");
         priorityList.add("Cito");
@@ -137,11 +139,15 @@ public class RecipesUI extends VerticalLayout implements View {
         columnComboBox.addSelectionListener(singleSelectionEvent -> {
             if (columnComboBox.getValue() != null) {
                 priorityComboBox.setVisible(columnComboBox.getValue().equals("Priority"));
-                pattern.setVisible(!columnComboBox.getValue().equals("Priority"));
+                patternDesc.setVisible(!columnComboBox.getValue().equals("Priority") &&
+                        !columnComboBox.getValue().equals("Patient"));
+                patternPatient.setVisible(!columnComboBox.getValue().equals("Priority") &&
+                        !columnComboBox.getValue().equals("Description"));
             }
             else{
                 priorityComboBox.setVisible(false);
-                pattern.setVisible(false);
+                patternDesc.setVisible(false);
+                patternPatient.setVisible(false);
             }
         });
 
@@ -150,8 +156,8 @@ public class RecipesUI extends VerticalLayout implements View {
         subFilter.addClickListener(clickEvent -> {
            String column = columnComboBox.getValue();
            List<Recipe> filteredRecipes;
-           if (column != null && column.equals("Patient") && !pattern.getValue().equals("")){
-               String[] patterns = pattern.getValue().split(" ");
+           if (column != null && column.equals("Patient") && !patternPatient.getValue().equals("")){
+               String[] patterns = patternPatient.getValue().split(" ");
                if (patterns.length <= 3) {
                    filteredRecipes = recipesService.getRecipesByPatient(patterns);
                    recipesGrid.setItems(filteredRecipes);
@@ -163,8 +169,13 @@ public class RecipesUI extends VerticalLayout implements View {
                            Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
                }
            }
-           else if(column != null && !(pattern.getValue().equals("") && priorityComboBox.getValue().equals(""))){
-               filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), pattern.getValue());
+           else if(column != null && !patternDesc.getValue().equals("")){
+               filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(), patternDesc.getValue());
+               recipesGrid.setItems(filteredRecipes);
+           }
+           else if(column != null && !priorityComboBox.getValue().equals("")){
+               filteredRecipes = recipesService.getRecipesByDescOrPriority(columnComboBox.getValue(),
+                       priorityComboBox.getValue());
                recipesGrid.setItems(filteredRecipes);
            }
            else{
@@ -175,7 +186,8 @@ public class RecipesUI extends VerticalLayout implements View {
         });
 
         filterFields.addComponent(columnComboBox);
-        filterFields.addComponent(pattern);
+        filterFields.addComponent(patternDesc);
+        filterFields.addComponent(patternPatient);
         filterFields.addComponent(priorityComboBox);
 
         addComponent(filterFields);
