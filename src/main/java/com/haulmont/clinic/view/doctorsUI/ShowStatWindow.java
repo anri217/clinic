@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ShowStatWindow extends Window {
     public ShowStatWindow(Doctor doctor){
-        super("STAT FOR " + doctor.getFullName());
+        super("STAT FOR " + doctor.getFullName().toUpperCase());
 
         VerticalLayout verticalLayout = new VerticalLayout();
         setContent(verticalLayout);

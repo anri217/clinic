@@ -31,7 +31,7 @@ public class AddDoctorWindow extends Window {
         verticalLayout.addComponent(patTextField);
         verticalLayout.addComponent(specTextField);
 
-        Button okButton = new Button("OK");
+        Button okButton = new Button(UIConstants.OK);
 
         okButton.addClickListener(clickEvent -> {
             if (!fNameTextField.getValue().equals("") && !lNameTextField.getValue().equals("")) {
@@ -42,10 +42,9 @@ public class AddDoctorWindow extends Window {
                 this.close();
                 UI.getCurrent().getPage().reload();
             }
-            else{
-                new Notification("ERROR",
-                        "Please, enter first name and last name",
-                        Notification.Type.WARNING_MESSAGE, true).show(UI.getCurrent().getPage());
+            else {
+                new Notification(UIConstants.ERROR, UIConstants.ADD_DOCTOR_ERROR, Notification.Type.WARNING_MESSAGE,
+                        true).show(UI.getCurrent().getPage());
             }
         });
 

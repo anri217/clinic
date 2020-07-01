@@ -26,10 +26,8 @@ public class NavigatorUI extends UI {
             e.printStackTrace();
         }
 
-        // Create a navigator to control the views
         navigator = new Navigator(this, this);
 
-        // Create and register the views
         navigator.addView(UIConstants.DOCTORS_VIEW, new DoctorsUI());
         navigator.addView(UIConstants.PATIENTS_VIEW, new PatientsUI());
         navigator.addView(UIConstants.RECIPES_VIEW, new RecipesUI());

@@ -12,7 +12,6 @@ import com.haulmont.clinic.service.implementation.PatientsServiceImpl;
 import com.haulmont.clinic.service.implementation.RecipesServiceImpl;
 import com.vaadin.ui.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -28,6 +28,8 @@ public class RecipesUI extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent request) {
+        removeAllComponents();
+
         setMargin(true);
 
         Label recLabel = new Label("Recipes");

@@ -1,6 +1,5 @@
 package com.haulmont.clinic.view.patientsUI;
 
-import com.haulmont.clinic.model.Doctor;
 import com.haulmont.clinic.model.Patient;
 import com.haulmont.clinic.service.PatientsService;
 import com.haulmont.clinic.service.RecipesService;
@@ -30,6 +29,8 @@ public class PatientsUI extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent request) {
+        removeAllComponents();
+
         setMargin(true);
 
         Label patLabel = new Label("Patients");

@@ -30,6 +30,8 @@ public class DoctorsUI extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent request) {
+        removeAllComponents();
+
         setMargin(true);
 
         Label docLabel = new Label("Doctors");
