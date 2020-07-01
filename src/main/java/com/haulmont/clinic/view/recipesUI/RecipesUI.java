@@ -120,12 +120,13 @@ public class RecipesUI extends VerticalLayout implements View {
         columns.add("Priority");
         columnComboBox.setItems(columns);
 
-        TextField pattern = new TextField("By: ");
+        TextField pattern = new TextField("By (you can enter only first name or full name " + "\n" +
+                "separated by ONE space ('FirstName' 'LastName' 'Patronymic')): ");
         pattern.setVisible(false);
 
         ComboBox<String> priorityComboBox =
-                new ComboBox<>("By (you can enter only first name or full name " + "\n" +
-                        "separated by ONE space ('FirstName' 'LastName' 'Patronymic')): ");
+                new ComboBox<>("By (you can enter only first name or first name and last name separated " +
+                        "by ONE space or full name ('First name' 'Last name' 'Patronymic')): ");
         List<String> priorityList = new ArrayList<>();
         priorityList.add("Normal");
         priorityList.add("Cito");
